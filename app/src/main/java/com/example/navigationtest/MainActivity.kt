@@ -17,15 +17,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        /*
+        * NavHostでNavigationの定義を行う
+        * composableでリクエストをハンドリングする
+        * */
         setContent {
             NavigationTestTheme {
-                val navController = rememberNavController()
-                NavHost(navController = navController,startDestination=Nav.GreetingPreview.name){
-                    composable(route = Nav.GreetingPreview.name){
+                val navController = rememberNavController() //NavControllerを定義する
+                NavHost(
+                    navController = navController,
+                    startDestination=Nav.Greeting.name //初期起動時に表示される画面
+                ){
+                    composable(route = Nav.Greeting.name){
                         Greeting(
+                            //引数にNavigate先のController値を渡す
                             onNavigateToSubMenue = { navController.navigate(Nav.SubMenue.name) },
                         )
-
                     }
                     composable(route = Nav.SubMenue.name) { SubMenue() }
                 }
@@ -37,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(onNavigateToSubMenue: () -> Unit) {
-    Button(onClick=onNavigateToSubMenue){
+    Button(onClick=onNavigateToSubMenue){//Navigate先
         Text("hogehoge")
     }
 }
